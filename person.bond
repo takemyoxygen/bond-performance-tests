@@ -1,0 +1,29 @@
+namespace Bond.PerformanceTest.Bond
+
+enum Gender
+{
+	Male,
+	Female
+}
+
+struct Passport
+{
+	0: string number;
+	1: string authority;
+}
+
+struct PoliceRecord
+{
+	0: int32 id;
+	1: string crime;	
+}
+
+struct Person
+{
+	0: string firstName;
+	1: string lastName;
+	3: uint32 age;
+	4: Gender gender;
+	5: nullable<Passport> passport;
+	6: vector<PoliceRecord> policeRecords;
+}

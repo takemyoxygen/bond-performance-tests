@@ -1,0 +1,30 @@
+enum Gender{
+	Male = 0;
+	Female = 1;
+}
+
+message Passport{
+	required string number = 1;
+	required string authority = 2;
+}
+
+message PoliceRecord{
+	required int32 id = 1;
+	required string crime = 2;
+
+}
+
+message Person{
+	required string firstName = 1;
+	required string lastName = 2;
+	required int32 age = 3;
+	required Gender gender = 4;
+	optional Passport passport = 5;
+	repeated PoliceRecord police_records = 6;
+}
+
+message Node{
+	required int32 data = 1;
+	optional Node left = 2;
+	optional Node right = 3;
+}

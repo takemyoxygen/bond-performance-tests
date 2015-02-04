@@ -34,7 +34,7 @@ namespace Bond.PerformanceTest
             {
                 var p = CreateBondPerson();
 
-                var output = new OutputBuffer();
+                var output = new OutputBuffer(256);
                 var writer = new CompactBinaryWriter<OutputBuffer>(output);
                 serializer.Serialize(p, writer);
             };
@@ -75,7 +75,7 @@ namespace Bond.PerformanceTest
             {
                 var person = CreateBondPerson();
 
-                var output = new OutputBuffer();
+                var output = new OutputBuffer(256);
                 var writer = new FastBinaryWriter<OutputBuffer>(output);
                 serializer.Serialize(person, writer);
             };

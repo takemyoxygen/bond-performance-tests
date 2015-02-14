@@ -76,11 +76,13 @@
     <Compile Include="..\person_types.cs">
       <Link>Bond\person_types.cs</Link>
     </Compile>
-    <Compile Include="BondEx.cs" />
+    <Compile Include="BondCompact.cs" />
+    <Compile Include="BondFast.cs" />
     <Compile Include="MeasurementEx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProtoEx.cs" />
+    <Compile Include="Protobuf.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

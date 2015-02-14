@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Bond.IO.Safe;
 using Bond.Protocols;
-using PoliceRecord = Bond.PerformanceTest.Bond.PoliceRecord;
 
 namespace Bond.PerformanceTest
 {
@@ -41,9 +40,8 @@ namespace Bond.PerformanceTest
 
             var timeSpan = serialize.Call(Times, WarmUp).Average();
 
-            Console.WriteLine("Person: Bond compact time - " + timeSpan);
-            Console.WriteLine("Person: Bond compact size -" + CreateBondPerson().CompactBondSize());
-            Console.WriteLine();
+            Console.WriteLine("Person: Bond compact serialization time - " + timeSpan);
+            Console.WriteLine("Person: Bond compact output size -" + CreateBondPerson().CompactBondSize());
         }
 
         private static void DeserializeBondPersonCompactly()
@@ -62,10 +60,9 @@ namespace Bond.PerformanceTest
             };
 
             var average = deserialize.Call(Times, WarmUp).Average();
-            Console.WriteLine("Bond cpmpact deserialization time - " + average);
+            Console.WriteLine("Person: Bond cpmpact deserialization time - " + average);
             Console.WriteLine();
         }
-
 
         private static void SerializeBondPersonQuickly()
         {
@@ -82,9 +79,8 @@ namespace Bond.PerformanceTest
 
             var average = serialize.Call(Times, WarmUp).Average();
 
-            Console.WriteLine("Bond fast serialization time - " + average);
-            Console.WriteLine("Bond fast output size - " + CreateBondPerson().FastBondSize());
-            Console.WriteLine();
+            Console.WriteLine("Person: Bond fast serialization time - " + average);
+            Console.WriteLine("Person: Bond fast output size - " + CreateBondPerson().FastBondSize());
         }
 
         private static void DeserializeBondPersonQuickly()
@@ -103,7 +99,7 @@ namespace Bond.PerformanceTest
             };
 
             var average = deserialize.Call(Times, WarmUp).Average();
-            Console.WriteLine("Bond fast deserialization time - " + average);
+            Console.WriteLine("Person: Bond fast deserialization time - " + average);
             Console.WriteLine();
         }
 
@@ -114,8 +110,7 @@ namespace Bond.PerformanceTest
             var timeSpan = serialize.Call(Times, WarmUp).Average();
 
             Console.WriteLine("Person: Protocol Buffers serialization time - " + timeSpan);
-            Console.WriteLine("Person: Protocol Buffers size - " + CreateProtobufPerson().SerializedSize);
-            Console.WriteLine();
+            Console.WriteLine("Person: Protocol Buffers output size - " + CreateProtobufPerson().SerializedSize);
         }
 
         private static void DeserializeProtobufPerson()
@@ -126,7 +121,7 @@ namespace Bond.PerformanceTest
 
             var average = deserialize.Call(Times, WarmUp).Average();
 
-            Console.WriteLine("Protocol Buffers deserialization time - " + average);
+            Console.WriteLine("Person: Protocol Buffers deserialization time - " + average);
             Console.WriteLine();
         }
 
@@ -163,11 +158,11 @@ namespace Bond.PerformanceTest
                 .SetLastName("Person")
                 .SetAge(22)
                 .SetGender(Gender.Male)
-                .AddPoliceRecords(global::PoliceRecord
+                .AddPoliceRecords(PoliceRecord
                     .CreateBuilder()
                     .SetCrime("crime1")
                     .SetId(1))
-                .AddPoliceRecords(global::PoliceRecord
+                .AddPoliceRecords(PoliceRecord
                     .CreateBuilder()
                     .SetCrime("some crime with very very very very very long description. asldg ;askdg a;sdgjk asdgjahsd asd gasd asdjgahsl dgasldjgh")
                     .SetId(2))

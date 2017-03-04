@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using BenchmarkDotNet.Running;
 
 namespace Bond.PerformanceTest
 {
@@ -7,60 +7,18 @@ namespace Bond.PerformanceTest
     {
         static void Main(string[] args)
         {
-            Protobuf.SerializeProtobuf(ProtobufPerson);
-            Protobuf.DeserializeProtobufPerson(ProtobufPerson, Person.ParseFrom);
-
-            BondCompact.SerializeCompact(BondPerson);
-            BondCompact.DeserializeCompact(BondPerson);
-
-            BondFast.SerializeFast(BondPerson);
-            BondFast.DeserializeFast(BondPerson);
-
-            Console.ReadLine();
-        }
-
-        private static Bond.Person BondPerson()
-        {
-            return new Bond.Person
+            var switcher = BenchmarkSwitcher.FromTypes(new []
             {
-                firstName = "Test",
-                lastName = "Person",
-                age = 22,
-                gender = Bond.Gender.Male,
-                policeRecords = new List<Bond.PoliceRecord>
-                {
-                    new Bond.PoliceRecord
-                    {
-                        crime = "crime1",
-                        id = 1
-                    },
+                typeof(SerializationBenchmarks),
+                typeof(DeserializationBenchmarks),
+            });
+            switcher.RunAll();
 
-                    new Bond.PoliceRecord
-                    {
-                        crime = "some crime with very very very very very long description. asldg ;askdg a;sdgjk asdgjahsd asd gasd asdjgahsl dgasldjgh",
-                        id = 2
-                    }
-                }
-            };
-        }
-
-        private static Person ProtobufPerson()
-        {
-            return Person
-                .CreateBuilder()
-                .SetFirstName("Test")
-                .SetLastName("Person")
-                .SetAge(22)
-                .SetGender(Gender.Male)
-                .AddPoliceRecords(PoliceRecord
-                    .CreateBuilder()
-                    .SetCrime("crime1")
-                    .SetId(1))
-                .AddPoliceRecords(PoliceRecord
-                    .CreateBuilder()
-                    .SetCrime("some crime with very very very very very long description. asldg ;askdg a;sdgjk asdgjahsd asd gasd asdjgahsl dgasldjgh")
-                    .SetId(2))
-                .Build();
+            var benchmarks = new SerializationBenchmarks();
+            Console.WriteLine("Google Protobuf size: {0} bytes", benchmarks.GoogleProtobuf());
+            Console.WriteLine("Protobuf.NET size:    {0} bytes", benchmarks.ProtobufNet());
+            Console.WriteLine("Compact Bond:         {0} bytes", benchmarks.CompactBond());
+            Console.WriteLine("Fast Bond:            {0} bytes", benchmarks.FastBond());
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Bond.PerformanceTest
         private byte[] compactBondPersonBytes;
         private byte[] fastBondPersonBytes;
 
-        [Setup]
+        [GlobalSetup]
         public void Setup()
         {
             googleProtobufPersonBytes = BenchmarksData.ProtobufPerson().ToByteArray();

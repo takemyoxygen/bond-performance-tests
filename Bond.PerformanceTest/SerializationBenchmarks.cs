@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Attributes;
 using Bond.IO.Safe;
 using Bond.Protocols;
+using Newtonsoft.Json;
 
 namespace Bond.PerformanceTest
 {
@@ -48,5 +49,12 @@ namespace Bond.PerformanceTest
             fastBondSerializer.Serialize(BondPerson, writer);
             return output.Data.Count;
         }
-    }
+
+	    [Benchmark]
+	    public int Json()
+	    {
+		    string output = JsonConvert.SerializeObject(BondPerson);
+		    return output.Length; // return characters, intentional
+	    }
+	}
 }

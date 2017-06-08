@@ -3,6 +3,7 @@ using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Bond.IO.Safe;
 using Bond.Protocols;
+using Newtonsoft.Json;
 
 namespace Bond.PerformanceTest
 {
@@ -16,8 +17,9 @@ namespace Bond.PerformanceTest
         private readonly Deserializer<FastBinaryReader<InputBuffer>> fastBondDeserializer = new Deserializer<FastBinaryReader<InputBuffer>>(typeof(Bond.Person));
         private byte[] compactBondPersonBytes;
         private byte[] fastBondPersonBytes;
+	    private string jsonPersonString;
 
-        [Setup]
+		[GlobalSetup]
         public void Setup()
         {
             googleProtobufPersonBytes = BenchmarksData.ProtobufPerson().ToByteArray();
@@ -39,7 +41,9 @@ namespace Bond.PerformanceTest
             var fastBondSerializer = new Serializer<FastBinaryWriter<OutputBuffer>>(typeof(Bond.Person));
             fastBondSerializer.Serialize(bondPerson, fastWriter);
             fastBondPersonBytes = fastOutput.Data.ToArray();
-        }
+
+	        jsonPersonString = JsonConvert.SerializeObject(bondPerson);
+		}
 
         [Benchmark]
         public void GoogleProtobuf()
@@ -69,5 +73,11 @@ namespace Bond.PerformanceTest
             var reader = new FastBinaryReader<InputBuffer>(input);
             fastBondDeserializer.Deserialize<Bond.Person>(reader);
         }
-    }
+
+	    [Benchmark]
+	    public void Json()
+	    {
+		    JsonConvert.DeserializeObject<Bond.Person>(jsonPersonString);
+	    }
+	}
 }
